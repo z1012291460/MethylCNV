@@ -4,7 +4,7 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.10+-orange.svg)](https://pytorch.org/)
 
-MethylCNV is a deep learning tool for detecting copy number variations (CNVs) from whole-genome bisulfite sequencing (WGBS) data. It uses a bidirectional LSTM (BiLSTM) model with attention mechanisms to integrate multiple genomic features including read depth, GC content, and methylation penalties to identify deletions (DEL) and duplications (DUP) in human genomes.
+MethylCNV is a deep learning tool for detecting copy number variations (CNVs) from whole-genome bisulfite sequencing (WGBS) data. It uses a bidirectional LSTM (BiLSTM) model with attention mechanisms to integrate multiple genomic features including read depth, GC content, and methylation penalties to identify deletions (DEL) and duplications (DUP) in genomes.
 
 ## Features
 

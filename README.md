@@ -1,25 +1,11 @@
 # MethylCNV
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-1.10+-orange.svg)](https://pytorch.org/)
-
 MethylCNV is a deep learning tool for detecting copy number variations (CNVs) from whole-genome bisulfite sequencing (WGBS) data. It uses a bidirectional LSTM (BiLSTM) model with attention mechanisms to integrate multiple genomic features including read depth, GC content, and methylation penalties to identify deletions (DEL) and duplications (DUP) in genomes.
-
-## Features
-
-- **Multi-modal Feature Extraction**: Combines read depth, GC content, and methylation-based penalties
-- **Deep Learning Architecture**: BiLSTM model with attention mechanisms and focal loss for handling class imbalance
-- **Methylation-aware Analysis**: Incorporates CpG methylation patterns and penalties based on bisulfite conversion
-- **Parallel Processing**: Multi-process chromosome handling for improved computational efficiency
-- **Comprehensive Evaluation**: Detailed performance metrics, confusion matrices, and feature importance analysis
-- **Data Augmentation**: Intelligent sampling strategies for balanced training datasets
 
 ## Installation
 
 ### Prerequisites
-- Python 3.8 or higher
-- CUDA-compatible GPU (recommended)
+- Python 3.8
 - Reference genome in FASTA format
 - Aligned WGBS BAM files
 - Methylation data in BED format
@@ -28,7 +14,7 @@ MethylCNV is a deep learning tool for detecting copy number variations (CNVs) fr
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/MethylCNV.git
+git clone https://github.com/z1012291460/MethylCNV.git
 cd MethylCNV
 ```
 
@@ -203,65 +189,3 @@ python Model/ModelTrain.py \
     --dropout 0.3 \
     --epochs 150
 ```
-
-## Performance
-
-The model achieves competitive performance on CNV detection tasks:
-
-- **Overall Accuracy**: >90% on balanced test sets
-- **DEL Detection**: High sensitivity for deletion events
-- **DUP Detection**: Robust duplication identification
-- **Feature Importance**: Methylation penalty and depth features show highest importance
-
-## Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## Issues and Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Issues](https://github.com/yourusername/MethylCNV/issues) page
-2. Create a new issue with detailed information about your problem
-3. Include error messages, input data formats, and system information
-
-## Citation
-
-If you use MethylCNV in your research, please cite:
-
-```bibtex
-@software{methylcnv2024,
-  title={MethylCNV: Deep Learning-based CNV Detection from WGBS Data},
-  author={Your Name},
-  year={2024},
-  url={https://github.com/yourusername/MethylCNV}
-}
-```
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Built with [PyTorch](https://pytorch.org/) for deep learning
-- Uses [PySAM](https://pysam.readthedocs.io/) for BAM file processing
-- Methylation analysis inspired by bisulfite sequencing alignment algorithms
-- Thanks to the bioinformatics and genomics community for foundational tools and methods
-
-## Contact
-
-- **Author**: [Your Name]
-- **Email**: [your.email@example.com]
-- **Institution**: [Your Institution]
-- **GitHub**: [@yourusername](https://github.com/yourusername)
-
----
-
-**Note**: This tool is designed for research purposes. For clinical applications, please ensure proper validation and compliance with relevant guidelines. 

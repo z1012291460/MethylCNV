@@ -11,7 +11,7 @@ import time
 class DepthCalculator:
     """
     计算指定染色体或区域的覆盖度、GC含量，并提供类似 align_bs 的
-    甲基化惩罚机制，可根据 CIGAR 运算符和碱基比对方式计算每条读段的惩罚分数。
+    甲基化惩罚机制，根据 CIGAR 运算符和碱基比对方式计算每条读段的惩罚分数。
     """
 
     def __init__(self,
@@ -173,12 +173,10 @@ class DepthCalculator:
         检查给定位置是否为CpG位点
         """
         if self.methylation_processor:
-            # 使用MethylationProcessor数据
             if chrom not in self.cpg_meth_levels:
                 return False
             return position in self.cpg_meth_levels[chrom]
         else:
-            # 使用传统方法
             return (chrom, position) in self.cpg_ids
 
     def get_methylation_level(self, chrom, position):

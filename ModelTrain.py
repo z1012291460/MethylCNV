@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-import warnings
-warnings.filterwarnings("ignore")
 import argparse
 import json
 import matplotlib.pyplot as plt

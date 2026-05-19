@@ -3,10 +3,10 @@ import pandas as pd
 import multiprocessing
 import logging
 import random
-import pysam  # <-- 新增：用于读取参考基因组长度
-import time  # 添加计时功能
+import pysam
+import time
 
-from Depth_Methy_Features import DepthCalculator, MethylationProcessor  # 确保导入正确的模块
+from Depth_Methy_Features import DepthCalculator, MethylationProcessor
 
 def get_chrom_lengths_from_fasta(reference_file):
     """
@@ -21,20 +21,11 @@ def get_chrom_lengths_from_fasta(reference_file):
         chrom_lengths = {}
         for chrom in ref_f.references:
             length = ref_f.get_reference_length(chrom)
-            # 一般 fasta 中的"chrom"名称里还包含 "chr" 前缀，
-            # 如果你的 CNV bed 里不带 "chr"，可自行去掉前缀:
             stripped_chrom = chrom.replace("chr", "")
             chrom_lengths[stripped_chrom] = length
     return chrom_lengths
 
 class TrainingDataBuilderRegion:
-    """
-    针对"直接在 process_chromosome 阶段指定区段"的示例：
-    1. 在每个染色体找到 CNV ±10kb 作为 nearCNV 区段
-    2. 从余下区域抽取作为 farCNV 区段，并进行更严格的下采样(仅保留20%)
-    3. 调用 DepthCalculator & MethylationProcessor 只在这些区段做计算
-    4. 贴 0/1/2 标签并返回
-    """
     def __init__(self, bin_size=100, context_size=10000, normal_keep_fraction=0.0, n_processes=None):
         """
         Parameters
@@ -44,7 +35,7 @@ class TrainingDataBuilderRegion:
         context_size : int
             对CNV区域前后扩展的上下文大小
         normal_keep_fraction : float
-            对远离CNV的正常区段随机保留的比例(例如0.2=20%)
+            对远离CNV的正常区段随机保留的比例
         n_processes : int or None
             多进程数
         """
@@ -109,8 +100,7 @@ class TrainingDataBuilderRegion:
             keep_num = int(len(far_regions) * self.normal_keep_fraction)
             keep_regions = random.sample(far_regions, keep_num) if keep_num > 0 else []
             far_regions = sorted(keep_regions, key=lambda x: x[0])
-
-            # 日志：输出 far_regions 原始数量和下采样后数量
+            
             self.logger.info(f"[{chrom}] far_regions raw: {len(far_regions)} -> downsampled to {len(keep_regions)}")
 
         # 将 nearCNV + far_regions 合并 => final_intervals
@@ -146,7 +136,6 @@ class TrainingDataBuilderRegion:
                 continue  # 避免异常区段
                 
             try:
-                # 将global_meth_processor传递给DepthCalculator，让它只提取当前区域的数据
                 depth_calculator = DepthCalculator(
                     filename=bam_file,
                     reference_filename=reference_file,
@@ -156,7 +145,6 @@ class TrainingDataBuilderRegion:
                 )
                 depth_feats = depth_calculator.process_region(chrom)
                 
-                # 关闭depth_calculator以释放资源
                 depth_calculator.close()
 
                 # 区域甲基化处理 - 单独处理这个区间的甲基化特征
@@ -370,7 +358,6 @@ class TrainingDataBuilderRegion:
 def main():
     logging.basicConfig(level=logging.INFO, 
                       format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    # 如果没有手动提供 chrom_lengths_dict，就自动从 reference_file 获取
     reference_file = '/GLOBALFS/scau_xlyuan_3/zsh/DATA/BIYE_KETI/reference_genome/human/chr_num/Homo_sapiens.GRCh38.dna.primary_assembly.fa'
     chrom_lengths_dict = get_chrom_lengths_from_fasta(reference_file)
     print(chrom_lengths_dict)
